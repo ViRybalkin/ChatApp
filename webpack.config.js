@@ -3,10 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  
 const conf = {
-    entry: './src/js/index.js',
+    entry: './src/js/chat.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename : 'index.js'
+        filename : 'chat.js'
     },
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
@@ -21,14 +21,24 @@ const conf = {
                 exclude: '/node_modules/'
             },
             {
+                test: /\.pug$/,
+                loader: 'pug-loader',
+                options: {
+                    pretty: true
+                }
+            },
+            {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
         ]
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/templates/index.pug'
+        }),
         new MiniCssExtractPlugin({
-            filename: 'main.css',
+            filename: 'chat.css',
         })
     ]
 }
